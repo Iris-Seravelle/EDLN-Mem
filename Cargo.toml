@@ -1,0 +1,30 @@
+[package]
+name = "eidolon"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+userfaultfd = { version = "0.9", features = ["linux5_7", "linux5_13"] }
+libc = "0.2"
+nix = { version = "0.29", features = ["poll", "mman", "socket", "uio", "sched", "process"] }
+serde = { version = "1.0", features = ["derive"] }
+bincode = "1.3"
+
+[build-dependencies]
+cc = "1.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+opt-level = 0
+debug = 0
+strip = true
+panic = "unwind"
+incremental = true
+lto = false
+codegen-units = 256
